@@ -1,0 +1,9 @@
+shell-integration = fish
+theme = catppuccin-frappe
+background-opacity = 0.95
+font-family = "FiraCode Nerd Font Mono"
+# keybind = cmd+k=clear_screen
+# keybind = cmd+k=text:lol
+# keybind = cmd+k=text:\x1b[21;5~
+# keybind = cmd+k=csi:34~
+keybind = cmd+k=text:\x1bOP
