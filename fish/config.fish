@@ -59,7 +59,7 @@ function runiw
     chamberprod exec projects/indicator-worker/prod -- cargo run --bin indicator_worker
 end
 
-function twscreen
+function twscreen-run
     cd ~/twscreen/
     pyenv activate twscreener
     python src/pyscreen/main.py
@@ -72,5 +72,14 @@ function twscreen
     cd
 end
 
+function twscreen-build
+    cd ~/twscreen/
+    docker build -t twscreen .
+    docker save -o twscreen.tar twscreen
+    scp -i ~/.ssh/aws_rsa twscreen.tar ec2-user@54.83.96.145:~/
+end
+
 abbr tn "tmux new -s (pwd | sed 's/.*\///g')"
+alias vim=nvim
+ulimit -n 4096
 zoxide init fish | source

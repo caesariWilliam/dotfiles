@@ -2,8 +2,6 @@ shell-integration = fish
 theme = catppuccin-frappe
 background-opacity = 0.95
 font-family = "FiraCode Nerd Font Mono"
-# keybind = cmd+k=clear_screen
-# keybind = cmd+k=text:lol
-# keybind = cmd+k=text:\x1b[21;5~
-# keybind = cmd+k=csi:34~
+# Bind cmd + k to F1 so clear-screen works in tmux
 keybind = cmd+k=text:\x1bOP
+macos-option-as-alt = true
