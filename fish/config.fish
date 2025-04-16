@@ -66,6 +66,22 @@ function gc --argument-names message
     git commit -m "$message"
 end
 
+function gcp --argument-names message
+    if test -z "$message"
+        echo "Enter commit message:"
+        read message
+
+        if test -z "$message"
+            echo "Error: No commit message provided"
+            return 1
+        end
+    end
+
+    git add -A
+    git commit -m "$message"
+    git push
+end
+
 function redisgo
     redis-server --requirepass epsteindidnotkillhimself --save "" &
 end
