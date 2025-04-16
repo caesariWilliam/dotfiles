@@ -1,0 +1,21 @@
+[[session]]
+name = "tmux config"
+path = "~/.config/tmux/"
+startup_command = "nvim tmux.conf"
+
+
+[[session]]
+name = "indicator-worker"
+path = "~/caesari2/projects/indicator-worker/"
+startup_command =  "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
+
+
+[[session]]
+name = "moritz"
+path = "~/caesari2/projects/moritz/"
+startup_command =  "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
+
+
+[default_session]
+startup_command =  "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
+preview_command = "eza --all --git --icons --color=always {}"

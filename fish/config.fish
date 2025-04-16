@@ -51,6 +51,16 @@ function chamberprod
     end
 end
 
+function gcommit --argument-names message
+    if test -z "$message"
+        echo "Error: Please provide a commit message"
+        return 1
+    end
+
+    git add -A
+    git commit -m "$message"
+end
+
 function redisgo
     redis-server --requirepass epsteindidnotkillhimself --save "" &
 end
@@ -79,7 +89,12 @@ function twscreen-build
     scp -i ~/.ssh/aws_rsa twscreen.tar ec2-user@54.83.96.145:~/
 end
 
-abbr tn "tmux new -s (pwd | sed 's/.*\///g')"
+function twscreen-download
+    cd ~/Desktop/
+    scp -i ~/.ssh/aws_rsa ec2-user@54.83.96.145:~/out_tview/us.csv us.csv
+    scp -i ~/.ssh/aws_rsa ec2-user@54.83.96.145:~/out_tview/nordic.csv nordic.csv
+end
+
 alias vim=nvim
 ulimit -n 4096
 zoxide init fish | source
