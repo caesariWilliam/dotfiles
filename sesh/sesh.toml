@@ -16,6 +16,33 @@ path = "~/caesari2/projects/moritz/"
 startup_command =  "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
 
 
+[[session]]
+name = "ssh moritz"
+path = "~/"
+startup_command = """
+tmux new-window  -d -n E1-okx 'ssh e1-hk; fish'  &&
+tmux new-window  -d -n E3-okx 'ssh e3-hk; fish' &&
+tmux new-window  -d -n E4-okx 'ssh e4-hk; fish' && 
+tmux new-window  -d -n CAM1-bybit 'ssh cam1-sgp; fish' && 
+tmux new-window  -d -n CAM4-bybit 'ssh cam4-sgp; fish'
+"""
+
+
+[[session]]
+name = "ssh riskbert"
+path = "~/"
+startup_command = """
+tmux new-window  -d -n E2-okx 'ssh e2-hk; fish'  &&
+tmux new-window  -d -n E5-okx 'ssh e5-hk; fish' &&
+tmux new-window  -d -n CAM2-bybit 'ssh cam2-sgp; fish' && 
+tmux new-window  -d -n CAM3-bybit 'ssh cam3-sgp; fish'
+tmux new-window  -d -n CAM2-okx 'ssh cam2-hk; fish'
+tmux new-window  -d -n CAM3-okx 'ssh cam3-hk; fish'
+"""
+
+
+
+
 [default_session]
 startup_command =  "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
 preview_command = "eza --all --git --icons --color=always {}"
