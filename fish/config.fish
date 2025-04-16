@@ -51,10 +51,15 @@ function chamberprod
     end
 end
 
-function gcommit --argument-names message
+function gc --argument-names message
     if test -z "$message"
-        echo "Error: Please provide a commit message"
-        return 1
+        echo "Enter commit message:"
+        read message
+
+        if test -z "$message"
+            echo "Error: No commit message provided"
+            return 1
+        end
     end
 
     git add -A
