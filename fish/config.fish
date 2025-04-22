@@ -66,6 +66,10 @@ function gc --argument-names message
     git commit -m "$message"
 end
 
+function gcm
+    git co master
+end
+
 function gcp --argument-names message
     if test -z "$message"
         echo "Enter commit message:"

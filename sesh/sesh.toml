@@ -9,11 +9,21 @@ name = "indicator-worker"
 path = "~/caesari2/projects/indicator-worker/"
 startup_command =  "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
 
+[[session]]
+name = "secrets"
+path = "~/caesari-secrets-management/"
+startup_command =  "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
 
 [[session]]
 name = "moritz"
 path = "~/caesari2/projects/moritz/"
 startup_command =  "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
+
+
+[[session]]
+name = "curt"
+path = "~/caesari2/cli/curt/"
+startup_command =  "nvm use"
 
 
 [[session]]
