@@ -106,6 +106,7 @@ function gnb --argument-names branch_name
     git checkout master
     git pull
     git branch "$branch_name"
+    git checkout "$branch_name"
     git push --set-upstream origin "$branch_name"
 end
 
