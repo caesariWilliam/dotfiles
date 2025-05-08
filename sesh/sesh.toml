@@ -5,25 +5,56 @@ startup_command = "nvim tmux.conf"
 
 
 [[session]]
+name = "sesh"
+path = "~/.config/sesh/"
+startup_command = "nvim sesh.toml"
+
+[[session]]
+name = "fish"
+path = "~/.config/fish/"
+startup_command = "nvim config.fish"
+
+[[session]]
 name = "indicator-worker"
 path = "~/caesari2/projects/indicator-worker/"
-startup_command =  "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
+startup_command = "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
 
 [[session]]
 name = "secrets"
 path = "~/caesari-secrets-management/"
-startup_command =  "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
+startup_command = "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
 
 [[session]]
 name = "moritz"
 path = "~/caesari2/projects/moritz/"
-startup_command =  "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
+startup_command = "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
+
+[[session]]
+name = "riskbert"
+path = "~/caesari2/projects/riskbert/"
+startup_command = "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
 
 
 [[session]]
 name = "curt"
 path = "~/caesari2/cli/curt/"
-startup_command =  "nvm use"
+startup_command = "nvm use"
+
+[[session]]
+name = "gordon"
+path = "~/caesari2/"
+startup_command = "ssh gordon"
+
+[[session]]
+name = "peter"
+path = "~/caesari2/"
+startup_command = "ssh peter"
+
+
+[[session]]
+name = "hatch"
+path = "~/Library/Application Support/hatch/"
+startup_command = "nvim config.toml"
 
 
 [[session]]
@@ -51,8 +82,6 @@ tmux new-window  -d -n CAM3-okx 'ssh cam3-hk; fish'
 """
 
 
-
-
 [default_session]
-startup_command =  "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
+startup_command = "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
 preview_command = "eza --all --git --icons --color=always {}"

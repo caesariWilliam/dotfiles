@@ -1,0 +1,1 @@
+_HATCH_COMPLETE=fish_source hatch

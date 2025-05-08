@@ -5,17 +5,17 @@ return {
       basedpyright = {
         settings = {
           basedpyright = {
-            lineLength = 100,
+            lineLength = 120,
             analysis = {
               typeCheckingMode = "standard",
             },
           },
         },
       },
-      ruff_lsp = {
+      ruff = {
         settings = {
           ruff = {
-            lineLength = 100,
+            lineLength = 120,
           },
         },
       },

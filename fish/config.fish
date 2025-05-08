@@ -66,8 +66,14 @@ function gc --argument-names message
     git commit -m "$message"
 end
 
+function gupm
+    git upmast
+    git merge master
+end
+
 function gcm
     git co master
+    git pull
 end
 
 function gcp --argument-names message
@@ -84,6 +90,23 @@ function gcp --argument-names message
     git add -A
     git commit -m "$message"
     git push
+end
+
+function gnb --argument-names branch_name
+    if test -z "$branch_name"
+        echo "Enter branch name:"
+        read branch_name
+
+        if test -z "$branch_name"
+            echo "Error: No branch name provided"
+            return 1
+        end
+    end
+
+    git checkout master
+    git pull
+    git branch "$branch_name"
+    git push --set-upstream origin "$branch_name"
 end
 
 function redisgo
