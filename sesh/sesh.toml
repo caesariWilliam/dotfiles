@@ -82,6 +82,28 @@ tmux new-window  -d -n CAM3-okx 'ssh cam3-hk; fish'
 """
 
 
+[[session]]
+name = "lint-all"
+path = "~/caesari2/"
+startup_command = """
+tmux new-window -c ~/caesari2/projects/riskbert/ -d -n riskbert 'make ci-fix; fish'  &&
+tmux new-window -c ~/caesari2/projects/hawk/ -d -n hawk 'make ci-fix; fish'  &&
+tmux new-window -c ~/caesari2/projects/moritz/ -d -n moritz 'make ci-fix; fish'  &&
+tmux new-window -c ~/caesari2/projects/dammsugare/ -d -n dammsugare 'make ci-fix; fish'  &&
+tmux new-window -c ~/caesari2/projects/data-collector/ -d -n data-collector 'make ci-fix; fish'
+tmux new-window -c ~/caesari2/packages/python/caesari_clients/ -d -n caesari_clients 'make ci-fix; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_data/ -d -n caesari_data 'make ci-fix; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_execution/ -d -n caesari_execution 'make ci-fix; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_datasources/ -d -n caesari_datasources 'make ci-fix; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_gateways/ -d -n caesari_gateways 'make ci-fix; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_models/ -d -n caesari_models 'make ci-fix; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_postgres/ -d -n caesari_postgres 'make ci-fix; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_signals/ -d -n caesari_signals 'make ci-fix; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_symbols/ -d -n caesari_symbols 'make ci-fix; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_utils/ -d -n caesari_utils 'make ci-fix; fish'
+"""
+
+
 [default_session]
 startup_command = "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
 preview_command = "eza --all --git --icons --color=always {}"
