@@ -47,7 +47,7 @@ function chamberprod
             set -l command $command_parts[(math $separator_index + 1)..-1]
 
             # Execute the command using aws-vault and chamber
-            aws-vault exec -s PowerBottom69 -- chamber exec $namespace -- $command
+            aws-vault exec -s caesari-authentik-saml -- chamber exec $namespace -- $command
     end
 end
 
@@ -144,6 +144,13 @@ function twscreen-download
     scp -i ~/.ssh/aws_rsa ec2-user@54.83.96.145:~/out_tview/nordic.csv nordic.csv
 end
 
+function bfg
+    java -jar /usr/local/bin/bfg-1.14.0.jar $argv
+end
+
 alias vim=nvim
 ulimit -n 4096
 zoxide init fish | source
+
+# # Created by `pipx` on 2025-05-22 10:34:27
+set PATH $PATH /Users/w/.local/bin

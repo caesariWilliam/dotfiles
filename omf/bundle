@@ -1,5 +1,7 @@
 package foreign-env
 package nvm
+theme agnoster
 theme bobthefish
+theme budspencer
 theme default
 theme toaster

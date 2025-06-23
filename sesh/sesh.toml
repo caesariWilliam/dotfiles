@@ -15,10 +15,21 @@ path = "~/.config/fish/"
 startup_command = "nvim config.fish"
 
 [[session]]
+name = "caesari2"
+path = "~/caesari2/"
+startup_command = """
+tmux new-window -d &&
+cursor .
+"""
+
+[[session]]
 name = "indicator-worker"
 path = "~/caesari2/projects/indicator-worker/"
-startup_command = "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
-
+# startup_command = "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
+startup_command = """
+tmux new-window -d -c 'main' &&
+nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'
+"""
 [[session]]
 name = "secrets"
 path = "~/caesari-secrets-management/"
@@ -61,11 +72,12 @@ startup_command = "nvim config.toml"
 name = "ssh moritz"
 path = "~/"
 startup_command = """
-tmux new-window  -d -n E1-okx 'ssh e1-hk; fish'  &&
-tmux new-window  -d -n E3-okx 'ssh e3-hk; fish' &&
-tmux new-window  -d -n E4-okx 'ssh e4-hk; fish' && 
-tmux new-window  -d -n CAM1-bybit 'ssh cam1-sgp; fish' && 
-tmux new-window  -d -n CAM4-bybit 'ssh cam4-sgp; fish'
+tmux new-window  -d -n E1-okx 'ssh e1-hk && cd moritz; fish'  &&
+tmux new-window  -d -n E3-okx 'ssh e3-hk && cd moritz; fish' &&
+tmux new-window  -d -n E4-okx 'ssh e4-hk && cd moritz; fish' && 
+tmux new-window  -d -n CAM1-bybit 'ssh cam1-sgp && cd moritz; fish' && 
+tmux new-window  -d -n CAM4-bybit 'ssh cam4-sgp && cd moritz; fish' &&
+tmux new-window  -d -n exp 'exp; fish'
 """
 
 
@@ -101,6 +113,27 @@ tmux new-window -c ~/caesari2/packages/python/caesari_postgres/ -d -n caesari_po
 tmux new-window -c ~/caesari2/packages/python/caesari_signals/ -d -n caesari_signals 'make ci-fix; fish'  &&
 tmux new-window -c ~/caesari2/packages/python/caesari_symbols/ -d -n caesari_symbols 'make ci-fix; fish'  &&
 tmux new-window -c ~/caesari2/packages/python/caesari_utils/ -d -n caesari_utils 'make ci-fix; fish'
+"""
+
+[[session]]
+name = "format-all"
+path = "~/caesari2/"
+startup_command = """
+tmux new-window -c ~/caesari2/projects/riskbert/ -d -n riskbert 'hatch fmt; fish'  &&
+tmux new-window -c ~/caesari2/projects/hawk/ -d -n hawk 'hatch fmt; fish'  &&
+tmux new-window -c ~/caesari2/projects/moritz/ -d -n moritz 'hatch fmt; fish'  &&
+tmux new-window -c ~/caesari2/projects/dammsugare/ -d -n dammsugare 'hatch fmt; fish'  &&
+tmux new-window -c ~/caesari2/projects/data-collector/ -d -n data-collector 'hatch fmt; fish'
+tmux new-window -c ~/caesari2/packages/python/caesari_clients/ -d -n caesari_clients 'hatch fmt; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_data/ -d -n caesari_data 'hatch fmt; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_execution/ -d -n caesari_execution 'hatch fmt; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_datasources/ -d -n caesari_datasources 'hatch fmt; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_gateways/ -d -n caesari_gateways 'hatch fmt; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_models/ -d -n caesari_models 'hatch fmt; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_postgres/ -d -n caesari_postgres 'hatch fmt; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_signals/ -d -n caesari_signals 'hatch fmt; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_symbols/ -d -n caesari_symbols 'hatch fmt; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_utils/ -d -n caesari_utils 'hatch fmt; fish'
 """
 
 
