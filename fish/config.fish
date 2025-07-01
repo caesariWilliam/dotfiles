@@ -6,6 +6,8 @@ if status is-login
     set -gx PATH /usr/local/opt/postgresql@16/bin $PATH
     eval "$(/opt/homebrew/bin/brew shellenv)"
     pyenv init --path | source
+    eval (ssh-agent -c)
+    ssh-add --apple-use-keychain ~/.ssh/github_rsa
 end
 
 if status is-interactive
@@ -20,7 +22,7 @@ eval (direnv hook fish)
 
 # Functions
 function exp
-    ssh gordon-pub -t '~/run_exposure_logs.sh'
+    ssh gordon -t '~/run_exposure_logs.sh'
 end
 
 function chamberprod

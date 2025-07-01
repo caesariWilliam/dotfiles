@@ -1,5 +1,4 @@
 return {
-  -- LSP Configuration
   {
     "neovim/nvim-lspconfig",
     opts = {
@@ -12,6 +11,7 @@ return {
               },
               cargo = {
                 allFeatures = true,
+                loadOutDirsFromCheck = true,
               },
               diagnostics = {
                 enable = false,

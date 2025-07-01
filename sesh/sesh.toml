@@ -63,6 +63,12 @@ startup_command = "ssh peter"
 
 
 [[session]]
+name = "ssh config"
+path = "~/.ssh"
+startup_command = "nvim config"
+
+
+[[session]]
 name = "hatch"
 path = "~/Library/Application Support/hatch/"
 startup_command = "nvim config.toml"
