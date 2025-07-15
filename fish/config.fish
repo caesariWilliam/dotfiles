@@ -156,3 +156,6 @@ zoxide init fish | source
 
 # # Created by `pipx` on 2025-05-22 10:34:27
 set PATH $PATH /Users/w/.local/bin
+
+# Created by `userpath` on 2025-07-09 12:59:01
+set PATH $PATH /Users/w/Library/Application Support/hatch/pythons/3.12/python/bin

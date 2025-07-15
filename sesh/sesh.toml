@@ -23,6 +23,14 @@ cursor .
 """
 
 [[session]]
+name = "caesari-asset-management"
+path = "~/caesari-asset-management/"
+startup_command = """
+tmux new-window -d &&
+cursor .
+"""
+
+[[session]]
 name = "indicator-worker"
 path = "~/caesari2/projects/indicator-worker/"
 # startup_command = "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
@@ -78,9 +86,9 @@ startup_command = "nvim config.toml"
 name = "ssh moritz"
 path = "~/"
 startup_command = """
-tmux new-window  -d -n E1-okx 'ssh e1-hk && cd moritz; fish'  &&
-tmux new-window  -d -n E3-okx 'ssh e3-hk && cd moritz; fish' &&
-tmux new-window  -d -n E4-okx 'ssh e4-hk && cd moritz; fish' && 
+tmux new-window  -d -n E1-okx 'ssh e1-hk-colo && cd moritz; fish'  &&
+tmux new-window  -d -n E3-okx 'ssh e3-hk-colo && cd moritz; fish' &&
+tmux new-window  -d -n E4-okx 'ssh e4-hk-colo && cd moritz; fish' && 
 tmux new-window  -d -n CAM1-bybit 'ssh cam1-sgp && cd moritz; fish' && 
 tmux new-window  -d -n CAM4-bybit 'ssh cam4-sgp && cd moritz; fish' &&
 tmux new-window  -d -n exp 'exp; fish'
@@ -104,9 +112,9 @@ tmux new-window  -d -n CAM3-okx 'ssh cam3-hk; fish'
 name = "lint-all"
 path = "~/caesari2/"
 startup_command = """
-tmux new-window -c ~/caesari2/projects/riskbert/ -d -n riskbert 'make ci-fix; fish'  &&
+tmux new-window -c ~/caesari2/projects/riskbert/ -d -n riskbert 'rb setup; rb ci-fix; rb test'  &&
 tmux new-window -c ~/caesari2/projects/hawk/ -d -n hawk 'make ci-fix; fish'  &&
-tmux new-window -c ~/caesari2/projects/moritz/ -d -n moritz 'make ci-fix; fish'  &&
+tmux new-window -c ~/caesari2/projects/moritz/ -d -n moritz 'moritz setup; moritz ci-fix; moritz test'  &&
 tmux new-window -c ~/caesari2/projects/dammsugare/ -d -n dammsugare 'make ci-fix; fish'  &&
 tmux new-window -c ~/caesari2/projects/data-collector/ -d -n data-collector 'make ci-fix; fish'
 tmux new-window -c ~/caesari2/packages/python/caesari_clients/ -d -n caesari_clients 'make ci-fix; fish'  &&
@@ -142,6 +150,10 @@ tmux new-window -c ~/caesari2/packages/python/caesari_symbols/ -d -n caesari_sym
 tmux new-window -c ~/caesari2/packages/python/caesari_utils/ -d -n caesari_utils 'hatch fmt; fish'
 """
 
+
+[[session]]
+name = "iw run"
+startup_command = "iw run"
 
 [default_session]
 startup_command = "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
