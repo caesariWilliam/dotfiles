@@ -150,7 +150,6 @@ function bfg
     java -jar /usr/local/bin/bfg-1.14.0.jar $argv
 end
 
-alias vim=nvim
 ulimit -n 4096
 zoxide init fish | source
 

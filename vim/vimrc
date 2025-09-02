@@ -17,14 +17,22 @@ let mapleader = " "
 " Use system clipboard for all yank/paste operations
 set clipboard=unnamedplus
 
+" Enable 24-bit colors
+set termguicolors
+set number
+set relativenumber
+
 call plug#begin('~/.config/vim/plugged')
+
+" Theme
+Plug 'catppuccin/vim', { 'as': 'catppuccin' }
 
 " Fuzzy finder
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 
 " File browser
-Plug 'preservim/nerdtree'
+Plug 'justinmk/vim-dirvish'
 
 " LSP
 Plug 'prabirshrestha/vim-lsp'
@@ -35,23 +43,43 @@ Plug 'tpope/vim-fugitive'
 
 call plug#end()
 
+" Theme settings
+colorscheme catppuccin_mocha
+
 " Key mappings
 nnoremap <leader>f :Files<CR>
-nnoremap <leader>e :NERDTreeToggle<CR>
+nnoremap <leader>e :Dirvish<CR>
 nnoremap <C-S-f> :Rg<CR>
+
+" Buffer management
+nnoremap <leader>bd :confirm bdelete<CR>
+
+" Buffer navigation (Shift + hjkl)
+nnoremap <S-h> :bprev<CR>
+nnoremap <S-l> :bnext<CR>
 
 " LSP settings
 let g:lsp_settings_filetype_rust = ['rust-analyzer']
 let g:lsp_settings_filetype_python = ['pyright']
 let g:lsp_settings_root_markers = ['Cargo.toml', 'pyproject.toml', '.git']
 
+" Force LSP to use floating windows/popups
+let g:lsp_hover_ui = 'float'
+let g:lsp_preview_float = 1
+let g:lsp_preview_doubletap = 1
+let g:lsp_float_max_width = 80
+let g:lsp_hover_conceal = 0
+
 " Enable LSP for rust and python
 augroup lsp_install
     au!
     autocmd User lsp_buffer_enabled setlocal omnifunc=lsp#complete
     autocmd User lsp_buffer_enabled setlocal signcolumn=yes
+    " Custom hover function that forces popup
+    autocmd User lsp_buffer_enabled nnoremap <buffer> K :LspHover<CR>
+    autocmd User lsp_buffer_enabled nnoremap <buffer> gd <plug>(lsp-definition)
+    autocmd User lsp_buffer_enabled nnoremap <buffer> gr <plug>(lsp-references)
 augroup END
 
-" NERDTree settings
-let NERDTreeShowHidden=1
-let NERDTreeMinimalUI=1
+" Dirvish settings
+let g:dirvish_mode = ':sort ,^.*[\/],'
