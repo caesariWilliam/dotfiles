@@ -83,3 +83,8 @@ augroup END
 
 " Dirvish settings
 let g:dirvish_mode = ':sort ,^.*[\/],'
+
+
+
+" Go to definition with <Space> g d
+nnoremap <leader>gd :lua vim.lsp.buf.definition()<CR>
