@@ -1,0 +1,57 @@
+" Set vim directories to use ~/.config/vim
+set runtimepath^=~/.config/vim
+set runtimepath+=~/.config/vim/after
+set packpath^=~/.config/vim
+let &directory = expand('~/.config/vim/swap//')
+let &backupdir = expand('~/.config/vim/backup//')
+let &undodir = expand('~/.config/vim/undo//')
+
+" Create directories if they don't exist
+if !isdirectory(&directory) | call mkdir(&directory, 'p') | endif
+if !isdirectory(&backupdir) | call mkdir(&backupdir, 'p') | endif
+if !isdirectory(&undodir) | call mkdir(&undodir, 'p') | endif
+
+" Set leader key to space
+let mapleader = " "
+
+" Use system clipboard for all yank/paste operations
+set clipboard=unnamedplus
+
+call plug#begin('~/.config/vim/plugged')
+
+" Fuzzy finder
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'junegunn/fzf.vim'
+
+" File browser
+Plug 'preservim/nerdtree'
+
+" LSP
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+
+" Git
+Plug 'tpope/vim-fugitive'
+
+call plug#end()
+
+" Key mappings
+nnoremap <leader>f :Files<CR>
+nnoremap <leader>e :NERDTreeToggle<CR>
+nnoremap <C-S-f> :Rg<CR>
+
+" LSP settings
+let g:lsp_settings_filetype_rust = ['rust-analyzer']
+let g:lsp_settings_filetype_python = ['pyright']
+let g:lsp_settings_root_markers = ['Cargo.toml', 'pyproject.toml', '.git']
+
+" Enable LSP for rust and python
+augroup lsp_install
+    au!
+    autocmd User lsp_buffer_enabled setlocal omnifunc=lsp#complete
+    autocmd User lsp_buffer_enabled setlocal signcolumn=yes
+augroup END
+
+" NERDTree settings
+let NERDTreeShowHidden=1
+let NERDTreeMinimalUI=1
