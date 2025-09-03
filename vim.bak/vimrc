@@ -16,12 +16,15 @@ let mapleader = " "
 
 " Use system clipboard for all yank/paste operations
 set clipboard=unnamedplus
+augroup YankToOSX
+  autocmd!
+  autocmd TextYankPost * if v:event.operator is 'y' | call system('pbcopy', @") | endif
+augroup END
 
 " Enable 24-bit colors
 set termguicolors
 set number
 set relativenumber
-
 call plug#begin('~/.config/vim/plugged')
 
 " Theme
@@ -41,12 +44,15 @@ Plug 'mattn/vim-lsp-settings'
 " Git
 Plug 'tpope/vim-fugitive'
 
+" Commenting
+Plug 'tpope/vim-commentary'
+
 call plug#end()
-
 " Theme settings
+"
 colorscheme catppuccin_mocha
-
 " Key mappings
+"
 nnoremap <leader>f :Files<CR>
 nnoremap <leader>e :Dirvish<CR>
 nnoremap <C-S-f> :Rg<CR>
@@ -62,6 +68,9 @@ nnoremap <S-l> :bnext<CR>
 let g:lsp_settings_filetype_rust = ['rust-analyzer']
 let g:lsp_settings_filetype_python = ['pyright']
 let g:lsp_settings_root_markers = ['Cargo.toml', 'pyproject.toml', '.git']
+" Enable LSP diagnostics and auto-install servers
+let g:lsp_diagnostics_enabled = 1
+let g:lsp_diagnostics_echo_cursor = 1
 
 " Force LSP to use floating windows/popups
 let g:lsp_hover_ui = 'float'
@@ -79,12 +88,11 @@ augroup lsp_install
     autocmd User lsp_buffer_enabled nnoremap <buffer> K :LspHover<CR>
     autocmd User lsp_buffer_enabled nnoremap <buffer> gd <plug>(lsp-definition)
     autocmd User lsp_buffer_enabled nnoremap <buffer> gr <plug>(lsp-references)
+
 augroup END
-
 " Dirvish settings
+"
 let g:dirvish_mode = ':sort ,^.*[\/],'
-
-
-
-" Go to definition with <Space> g d
-nnoremap <leader>gd :lua vim.lsp.buf.definition()<CR>
+" Go to definition with <Space> g d - Fixed for vim-lsp
+"
+nnoremap <leader>gd <plug>(lsp-definition)

@@ -1,7 +1,9 @@
 # This file contains fish universal variable definitions.
 # VERSION: 3.0
+SETUVAR --export EDITOR:nvim
 SETUVAR --export --path PATH:/opt/homebrew/opt/nvm/versions/node/v18\x2e20\x2e4/bin\x1e/Users/w/caesari2/node_modules/\x2ebin\x1e/Users/w/caesari2/cli/yaml\x2dto\x2dtf\x2dconverter/bin\x1e/Users/w/caesari2/cli/caesari/bin\x1e/Users/w/caesari2/cli/curt/node_modules/\x2ebin\x1e/Users/w/\x2epyenv/shims\x1e/opt/homebrew/bin\x1e/opt/homebrew/sbin\x1e/usr/local/opt/postgresql\x4016/bin\x1e/Users/w/\x2ecargo/bin\x1e/usr/local/bin\x1e/Users/w/\x2ecargo/bin\x1e/Users/w/local/scripts\x1e/Users/w/\x2epyenv/bin\x1e/usr/local/bin\x1e/System/Cryptexes/App/usr/bin\x1e/usr/bin\x1e/bin\x1e/usr/sbin\x1e/sbin\x1e/var/run/com\x2eapple\x2esecurity\x2ecryptexd/codex\x2esystem/bootstrap/usr/local/bin\x1e/var/run/com\x2eapple\x2esecurity\x2ecryptexd/codex\x2esystem/bootstrap/usr/bin\x1e/var/run/com\x2eapple\x2esecurity\x2ecryptexd/codex\x2esystem/bootstrap/usr/appleinternal/bin\x1e/Users/w/\x2elocal/bin
 SETUVAR --export PYENV_ROOT:/Users/w/\x2epyenv
+SETUVAR --export VISUAL:nvim
 SETUVAR __fish_initialized:3800
 SETUVAR _fisher_upgraded_to_4_4:\x1d
 SETUVAR budspencer_colors:000000\x1e083743\x1e445659\x1efdf6e3\x1eb58900\x1ecb4b16\x1edc121f\x1eaf005f\x1e6c71c4\x1e268bd2\x1e2aa198\x1e859900

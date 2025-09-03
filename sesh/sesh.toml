@@ -44,26 +44,25 @@ cursor .
 [[session]]
 name = "indicator-worker"
 path = "~/caesari2/projects/indicator-worker/"
-# startup_command = "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
 startup_command = """
 tmux new-window -d -c 'main' &&
-nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'
+nvim -c 'Files'
 """
+
 [[session]]
 name = "secrets"
 path = "~/caesari-secrets-management/"
-startup_command = "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
+startup_command = "tmux new-window -d && nvim -c 'Files'"
 
 [[session]]
 name = "moritz"
 path = "~/caesari2/projects/moritz/"
-startup_command = "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
+startup_command = "tmux new-window -d && nvim -c 'Files'"
 
 [[session]]
 name = "riskbert"
 path = "~/caesari2/projects/riskbert/"
-startup_command = "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
-
+startup_command = "tmux new-window -d && nvim -c 'Files'"
 
 [[session]]
 name = "curt"
@@ -96,7 +95,7 @@ startup_command = "nvim config.toml"
 [[session]]
 name = "polymarket"
 path = "~/polymarket"
-startup_command = "tmux new-window -d && tmux new-window -d 'ssh polymarket' && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
+startup_command = "tmux new-window -d && tmux new-window -d 'ssh polymarket' && nvim -c 'Files'"
 
 
 [[session]]
@@ -174,5 +173,4 @@ startup_command = "iw run"
 
 [default_session]
 path = "~/caesari2/"
-startup_command = "tmux new-window -d && nvim -c 'lua Snacks.picker.files({hidden = false, ignored = false})'"
-preview_command = "eza --all --git --icons --color=always {}"
+startup_command = "tmux new-window -d && nvim -c 'Files'"

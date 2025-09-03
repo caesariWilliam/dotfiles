@@ -159,4 +159,6 @@ set PATH $PATH /Users/w/.local/bin
 # Created by `userpath` on 2025-07-09 12:59:01
 set PATH $PATH /Users/w/Library/Application Support/hatch/pythons/3.12/python/bin
 
-set -gx VIMINIT "source ~/.config/vim/vimrc"
+alias vim='nvim'
+set -Ux EDITOR nvim
+set -Ux VISUAL nvim
