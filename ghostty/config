@@ -1,6 +1,6 @@
 shell-integration = fish
 theme = catppuccin-frappe
-background-opacity = 0.95
+background-opacity = 1.0
 font-family = "FiraCode Nerd Font Mono"
 # Bind cmd + k to F1 so clear-screen works in tmux
 keybind = cmd+k=text:\x1bOP
