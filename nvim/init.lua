@@ -20,6 +20,9 @@ Plug('williamboman/mason.nvim')
 Plug('williamboman/mason-lspconfig.nvim')
 Plug('nvim-treesitter/nvim-treesitter', {['do'] = ':TSUpdate'})
 Plug('ms-jpq/coq_nvim', {branch = 'coq'})
+Plug('ms-jpq/coq.artifacts', {branch = 'artifacts'})
+Plug('lewis6991/gitsigns.nvim')
+Plug('romgrk/barbar.nvim')
 
 vim.call('plug#end')
 
@@ -123,4 +126,93 @@ require("catppuccin").setup({
 require("nvim-treesitter.configs").setup {
   ensure_installed = { "lua", "python", "json", "bash", "yaml" },
   highlight = { enable = true },
+}
+
+-- Gitsigns setup
+require('gitsigns').setup {
+  signs = {
+    add          = { text = '│', hl = 'GitSignsAdd' },
+    change       = { text = '│', hl = 'GitSignsChange' },
+    delete       = { text = '_', hl = 'GitSignsDelete' },
+    topdelete    = { text = '‾', hl = 'GitSignsDelete' },
+    changedelete = { text = '~', hl = 'GitSignsChange' },
+    untracked    = { text = '┆', hl = 'GitSignsAdd' },
+  },
+  signcolumn = true,  -- Toggle with `:Gitsigns toggle_signs`
+  numhl      = false, -- Toggle with `:Gitsigns toggle_numhl`
+  linehl     = false, -- Toggle with `:Gitsigns toggle_linehl`
+  word_diff  = false, -- Toggle with `:Gitsigns toggle_word_diff`
+  watch_gitdir = {
+    follow_files = true
+  },
+  attach_to_untracked = true,
+  current_line_blame = false, -- Toggle with `:Gitsigns toggle_current_line_blame`
+  current_line_blame_opts = {
+    virt_text = true,
+    virt_text_pos = 'eol', -- 'eol' | 'overlay' | 'right_align'
+    delay = 1000,
+    ignore_whitespace = false,
+  },
+  sign_priority = 6,
+  update_debounce = 100,
+  status_formatter = nil, -- Use default
+  max_file_length = 40000, -- Disable if file is longer than this (in lines)
+  preview_config = {
+    -- Options passed to nvim_open_win
+    border = 'single',
+    style = 'minimal',
+    relative = 'cursor',
+    row = 0,
+    col = 1
+  },
+}
+
+-- Set git signs colors
+vim.api.nvim_set_hl(0, 'GitSignsChange', { fg = '#7aa2f7' }) -- Blue for changes
+
+-- Barbar setup
+require'barbar'.setup {
+  animation = true,
+  auto_hide = false,
+  tabpages = true,
+  clickable = true,
+  exclude_ft = {'javascript'},
+  exclude_name = {'package.json'},
+  icons = {
+    buffer_index = false,
+    buffer_number = false,
+    button = '',
+    diagnostics = {
+      [vim.diagnostic.severity.ERROR] = {enabled = true, icon = 'ﬀ'},
+      [vim.diagnostic.severity.WARN] = {enabled = false},
+      [vim.diagnostic.severity.INFO] = {enabled = false},
+      [vim.diagnostic.severity.HINT] = {enabled = true},
+    },
+    gitsigns = {
+      added = {enabled = true, icon = '+'},
+      changed = {enabled = true, icon = '~'},
+      deleted = {enabled = true, icon = '-'},
+    },
+    filetype = {
+      custom_colors = false,
+      enabled = true,
+    },
+    separator = {left = '▎', right = ''},
+    modified = {button = '●'},
+    pinned = {button = '', filename = true},
+    preset = 'default',
+    alternate = {filetype = {enabled = false}},
+    current = {buffer_index = true},
+    inactive = {button = '×'},
+    visible = {modified = {buffer_number = false}},
+  },
+  insert_at_end = false,
+  insert_at_start = false,
+  maximum_padding = 1,
+  minimum_padding = 1,
+  maximum_length = 30,
+  minimum_length = 0,
+  semantic_letters = true,
+  letters = 'asdfjkl;ghnmxcvbziowerutyqpASDFJKLGHNMXCVBZIOWERUTYQP',
+  no_name_title = nil,
 }

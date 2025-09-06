@@ -13,16 +13,17 @@ mason_lspconfig.setup({ ensure_installed = servers })
 
 -- Diagnostics config
 vim.diagnostic.config({
-  virtual_text = false,
+  virtual_text = {
+    severity = { min = vim.diagnostic.severity.HINT },
+    format = function(diagnostic)
+      return string.format("%s", diagnostic.message)
+    end,
+  },
   float = { border = "rounded", max_width = 80 },
+  signs = false,
   underline = true,
   update_in_insert = false,
   severity_sort = true,
-})
-
-vim.o.updatetime = 300
-vim.api.nvim_create_autocmd("CursorHold", {
-  callback = function() vim.diagnostic.open_float(nil, { focus = false }) end,
 })
 
 -- Common attach
@@ -35,6 +36,9 @@ local on_attach = function(_, bufnr)
   vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
   vim.wo.signcolumn = "yes"
 end
+
+-- Set COQ to auto-start before loading
+vim.g.coq_settings = { auto_start = "shut-up" }
 
 -- Get coq capabilities (this is the key change for coq compatibility)
 local capabilities = vim.lsp.protocol.make_client_capabilities()
@@ -53,8 +57,12 @@ for _, server in ipairs(servers) do
         check = { command = "clippy" } 
       } 
     }
+  elseif server == "pyright" then
+    -- Only setup if not already running to avoid duplicates
+    if not vim.tbl_contains(vim.lsp.get_clients(), function(client) return client.name == "pyright" end) then
+      lspconfig[server].setup(opts)
+    end
+  else
+    lspconfig[server].setup(opts)
   end
-  lspconfig[server].setup(opts)
 end
-
-vim.g.coq_settings = { auto_start = true }
