@@ -23,6 +23,7 @@ Plug('ms-jpq/coq_nvim', {branch = 'coq'})
 Plug('ms-jpq/coq.artifacts', {branch = 'artifacts'})
 Plug('lewis6991/gitsigns.nvim')
 Plug('romgrk/barbar.nvim')
+Plug('folke/which-key.nvim')
 
 vim.call('plug#end')
 
@@ -33,6 +34,27 @@ vim.opt.termguicolors = true
 vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.undofile = true
+
+-- Auto-reload files when changed outside vim
+vim.opt.autoread = true
+vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
+  command = "if mode() != 'c' | checktime | endif",
+  pattern = { "*" },
+})
+
+-- Always edit files, never open read-only
+vim.opt.readonly = false
+vim.opt.modifiable = true
+
+-- Highlight yanked text
+vim.api.nvim_create_autocmd('TextYankPost', {
+  callback = function()
+    vim.highlight.on_yank({ timeout = 100 })
+  end,
+})
+
+-- FZF configuration to ignore directories
+vim.env.FZF_DEFAULT_COMMAND = 'rg --files --hidden --follow --glob "!.git/*" --glob "!.venv/*" --glob "!.hatch/*" --glob "!.ruff_cache/*" --glob "!.mypy_cache/*"'
 
 -- Directories
 local state_dir = vim.fn.stdpath('state')
@@ -97,14 +119,20 @@ vim.keymap.set('n', '<leader>bd', ':confirm bdelete<CR>')
 vim.keymap.set('n', '<S-h>', ':bprev<CR>')
 vim.keymap.set('n', '<S-l>', ':bnext<CR>')
 
--- Move between splits with CTRL + h/j/k/l
-vim.keymap.set('n', '<C-h>', '<C-w>h', { noremap = true, silent = true })
-vim.keymap.set('n', '<C-j>', '<C-w>j', { noremap = true, silent = true })
-vim.keymap.set('n', '<C-k>', '<C-w>k', { noremap = true, silent = true })
-vim.keymap.set('n', '<C-l>', '<C-w>l', { noremap = true, silent = true })
 
 -- Close window with leader wq
 vim.keymap.set('n', '<leader>wq', ':q<CR>', { noremap = true, silent = true })
+
+-- LSP keymaps
+vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition, { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>gr', vim.lsp.buf.references, { noremap = true, silent = true })
+
+-- Git keymaps
+vim.keymap.set('n', '<leader>gb', ':Git blame --date=relative<CR>', { noremap = true, silent = true })
+
+-- Search keymaps
+vim.keymap.set('n', '<leader>sa', ':Rg<CR>', { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>sw', ':Rg <C-r><C-w><CR>', { noremap = true, silent = true })
 
 
 -- LSP configs
@@ -170,6 +198,9 @@ require('gitsigns').setup {
 -- Set git signs colors
 vim.api.nvim_set_hl(0, 'GitSignsChange', { fg = '#7aa2f7' }) -- Blue for changes
 
+-- Disable barbar's default keymaps to prevent conflicts
+vim.g.barbar_auto_setup = false
+
 -- Barbar setup
 require'barbar'.setup {
   animation = true,
@@ -216,3 +247,18 @@ require'barbar'.setup {
   letters = 'asdfjkl;ghnmxcvbziowerutyqpASDFJKLGHNMXCVBZIOWERUTYQP',
   no_name_title = nil,
 }
+
+-- Force override window navigation after all plugins load
+vim.defer_fn(function()
+  -- Clear any existing mappings first
+  pcall(vim.keymap.del, 'n', '<C-h>')
+  pcall(vim.keymap.del, 'n', '<C-j>')
+  pcall(vim.keymap.del, 'n', '<C-k>')
+  pcall(vim.keymap.del, 'n', '<C-l>')
+  
+  -- Set window navigation
+  vim.keymap.set('n', '<C-h>', '<C-w>h', { noremap = true, silent = true, desc = 'Move to left window' })
+  vim.keymap.set('n', '<C-j>', '<C-w>j', { noremap = true, silent = true, desc = 'Move to bottom window' })
+  vim.keymap.set('n', '<C-k>', '<C-w>k', { noremap = true, silent = true, desc = 'Move to top window' })
+  vim.keymap.set('n', '<C-l>', '<C-w>l', { noremap = true, silent = true, desc = 'Move to right window' })
+end, 200)
