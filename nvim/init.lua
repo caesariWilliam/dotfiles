@@ -45,6 +45,7 @@ vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGai
 -- Always edit files, never open read-only
 vim.opt.readonly = false
 vim.opt.modifiable = true
+vim.opt.shortmess:append('A') -- Never show "ATTENTION" message when file is already open elsewhere
 
 -- Highlight yanked text
 vim.api.nvim_create_autocmd('TextYankPost', {
@@ -78,46 +79,15 @@ vim.defer_fn(function()
     end
 end, 100)
 
--- nvim-tree setup
-require("nvim-tree").setup({
-    sort_by = "case_sensitive",
-    view = {
-        width = 30,
-    },
-    renderer = {
-        group_empty = true,
-    },
-    filters = {
-        dotfiles = false,
-    },
-    on_attach = function(bufnr)
-        local api = require('nvim-tree.api')
-        
-        -- Default mappings
-        api.config.mappings.default_on_attach(bufnr)
-        
-        -- Custom mappings for h/l
-        vim.keymap.set('n', 'l', api.node.open.edit, { buffer = bufnr, noremap = true, silent = true, desc = 'Open' })
-        vim.keymap.set('n', 'h', api.node.navigate.parent_close, { buffer = bufnr, noremap = true, silent = true, desc = 'Close Directory' })
-        
-        -- Mark files with Tab
-        vim.keymap.set('n', '<Tab>', api.marks.toggle, { buffer = bufnr, noremap = true, silent = true, desc = 'Toggle Mark' })
-        
-        -- Delete marked files with d
-        vim.keymap.set('n', 'd', api.marks.bulk.delete, { buffer = bufnr, noremap = true, silent = true, desc = 'Delete Marked' })
-        
-        -- Ensure Ctrl+h works to go back to previous window
-        vim.keymap.set('n', '<C-h>', '<C-w>h', { buffer = bufnr, noremap = true, silent = true })
-    end,
-})
 
 -- Keymaps
 vim.keymap.set('n', '<leader>f', ':Files<CR>')
-vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>')
 vim.keymap.set('n', '<C-S-f>', ':Rg<CR>')
 vim.keymap.set('n', '<leader>bd', ':confirm bdelete<CR>')
 vim.keymap.set('n', '<S-h>', ':bprev<CR>')
 vim.keymap.set('n', '<S-l>', ':bnext<CR>')
+
+vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>')
 
 
 -- Close window with leader wq
@@ -248,17 +218,127 @@ require'barbar'.setup {
   no_name_title = nil,
 }
 
+
+
+local function open_win_config_func()
+    local scr_w = vim.opt.columns:get()
+    local scr_h = vim.opt.lines:get()
+    local tree_w = 120
+    local tree_h = math.floor(tree_w * scr_h / scr_w)
+    return {
+	border = "double",
+	relative = "editor",
+	width = tree_w,
+	height = tree_h,
+	col = (scr_w - tree_w) / 2,
+	row = (scr_h - tree_h) / 2
+    }
+end
+
+
+
+local function nvim_tree_on_attach(bufnr)
+    local api = require "nvim-tree.api"
+
+    -- default mappings
+    api.config.mappings.default_on_attach(bufnr)
+end
+
+
+
+require("nvim-tree").setup {
+    view = {
+	signcolumn = "yes",
+	float = {
+	    enable = true,
+	    open_win_config = open_win_config_func
+	},
+	cursorline = false
+    },
+    modified = {
+	enable = true
+    },
+    renderer = {
+	indent_width = 3,
+	icons = {
+	    show = {
+		hidden = true
+	    },
+	    git_placement = "after",
+	    bookmarks_placement = "after",
+	    symlink_arrow = " -> ",
+	    glyphs = {
+		folder = {
+		    arrow_closed = " ",
+		    arrow_open = " ",
+		    default = "",
+		    open = "",
+		    empty = "",
+		    empty_open = "",
+		    symlink = "",
+		    symlink_open = ""
+		},
+		default = "󱓻",
+		symlink = "󱓻",
+		bookmark = "",
+		modified = "",
+		hidden = "󱙝",
+		git = {
+		    unstaged = "×",
+		    staged = "",
+		    unmerged = "󰧾",
+		    untracked = "",
+		    renamed = "",
+		    deleted = "",
+		    ignored = "∅"
+		}
+	    }
+	}
+    },
+    filters = {
+	git_ignored = false
+    },
+    hijack_cursor = true,
+    sync_root_with_cwd = true,
+    on_attach = nvim_tree_on_attach
+}
+
+-- Safe delete (handles lists of modes and buffer/global)
+local function safe_del(mode, lhs, opts)
+  opts = opts or {}
+  if type(mode) == "table" then
+    for _, m in ipairs(mode) do safe_del(m, lhs, opts) end
+    return
+  end
+  -- try global
+  pcall(vim.keymap.del, mode, lhs, { buffer = false })
+  -- try buffer-local (current buffer)
+  pcall(vim.keymap.del, mode, lhs, { buffer = 0 })
+end
+
+local function remap(mode, lhs, rhs, opts)
+  opts = opts or {}
+  -- delete first, both scopes
+  safe_del(mode, lhs, { buffer = opts.buffer })
+  -- then set
+  vim.keymap.set(mode, lhs, rhs, opts)
+end
+
+-- remap("n", "<leader>ff", "<cmd>Telescope find_files<CR>", { desc = "Find files" })
+
+
 -- Force override window navigation after all plugins load
-vim.defer_fn(function()
-  -- Clear any existing mappings first
-  pcall(vim.keymap.del, 'n', '<C-h>')
-  pcall(vim.keymap.del, 'n', '<C-j>')
-  pcall(vim.keymap.del, 'n', '<C-k>')
-  pcall(vim.keymap.del, 'n', '<C-l>')
-  
-  -- Set window navigation
-  vim.keymap.set('n', '<C-h>', '<C-w>h', { noremap = true, silent = true, desc = 'Move to left window' })
-  vim.keymap.set('n', '<C-j>', '<C-w>j', { noremap = true, silent = true, desc = 'Move to bottom window' })
-  vim.keymap.set('n', '<C-k>', '<C-w>k', { noremap = true, silent = true, desc = 'Move to top window' })
-  vim.keymap.set('n', '<C-l>', '<C-w>l', { noremap = true, silent = true, desc = 'Move to right window' })
-end, 200)
+-- Clear any existing mappings first
+remap('n', '<C-h>', '<C-w>h', { desc = 'Move to left window' })
+remap('n', '<C-j>', '<C-w>j', { desc = 'Move to left window' })
+remap('n', '<C-k>', '<C-w>k', { desc = 'Move to left window' })
+remap('n', '<C-l>', '<C-w>l', { desc = 'Move to left window' })
+-- vim.keymap.del( 'n', '<C-j>')
+-- vim.keymap.del( 'n', '<C-k>')
+-- vim.keymap.del( 'n', '<C-l>')
+
+-- -- Set window navigation
+-- vim.keymap.set('n', '<C-h>', '<C-w>h', { noremap = true, silent = true, desc = 'Move to left window' })
+-- vim.keymap.set('n', '<C-j>', '<C-w>j', { noremap = true, silent = true, desc = 'Move to bottom window' })
+-- vim.keymap.set('n', '<C-k>', '<C-w>k', { noremap = true, silent = true, desc = 'Move to top window' })
+-- vim.keymap.set('n', '<C-l>', '<C-w>l', { noremap = true, silent = true, desc = 'Move to right window' })

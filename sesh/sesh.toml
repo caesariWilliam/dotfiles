@@ -12,7 +12,7 @@ startup_command = "ls -la"
 [[session]]
 name = "tbricks"
 path = "~"
-startup_command = "ssh tbricks-uat"
+startup_command = "ssh -t tbricks-uat 'sudo -iu tbricks'"
 
 
 [[session]]
@@ -128,42 +128,42 @@ tmux new-window  -d -n CAM3-okx 'ssh cam3-hk; fish'
 name = "lint-all"
 path = "~/caesari2/"
 startup_command = """
-tmux new-window -c ~/caesari2/projects/riskbert/ -d -n riskbert 'rb setup; rb ci-fix; rb test'  &&
-tmux new-window -c ~/caesari2/projects/hawk/ -d -n hawk 'make ci-fix; fish'  &&
-tmux new-window -c ~/caesari2/projects/moritz/ -d -n moritz 'moritz setup; moritz ci-fix; moritz test'  &&
-tmux new-window -c ~/caesari2/projects/dammsugare/ -d -n dammsugare 'make ci-fix; fish'  &&
-tmux new-window -c ~/caesari2/projects/data-collector/ -d -n data-collector 'make ci-fix; fish'
-tmux new-window -c ~/caesari2/packages/python/caesari_clients/ -d -n caesari_clients 'make ci-fix; fish'  &&
-tmux new-window -c ~/caesari2/packages/python/caesari_data/ -d -n caesari_data 'make ci-fix; fish'  &&
-tmux new-window -c ~/caesari2/packages/python/caesari_execution/ -d -n caesari_execution 'make ci-fix; fish'  &&
-tmux new-window -c ~/caesari2/packages/python/caesari_datasources/ -d -n caesari_datasources 'make ci-fix; fish'  &&
-tmux new-window -c ~/caesari2/packages/python/caesari_gateways/ -d -n caesari_gateways 'make ci-fix; fish'  &&
-tmux new-window -c ~/caesari2/packages/python/caesari_models/ -d -n caesari_models 'make ci-fix; fish'  &&
-tmux new-window -c ~/caesari2/packages/python/caesari_postgres/ -d -n caesari_postgres 'make ci-fix; fish'  &&
-tmux new-window -c ~/caesari2/packages/python/caesari_signals/ -d -n caesari_signals 'make ci-fix; fish'  &&
-tmux new-window -c ~/caesari2/packages/python/caesari_symbols/ -d -n caesari_symbols 'make ci-fix; fish'  &&
-tmux new-window -c ~/caesari2/packages/python/caesari_utils/ -d -n caesari_utils 'make ci-fix; fish'
+tmux new-window -c ~/caesari2/projects/riskbert/ -d -n riskbert 'uv run python -m mypy src; uvx ruff check --fix; uv run python -m pytest -s -vv'  &&
+tmux new-window -c ~/caesari2/projects/hawk/ -d -n hawk 'uv run python -m mypy src; uvx ruff check --fix; uv run python -m pytest -s -vv'  &&
+tmux new-window -c ~/caesari2/projects/moritz/ -d -n moritz 'uv run python -m mypy src; uvx ruff check --fix; uv run python -m pytest -s -vv'  &&
+tmux new-window -c ~/caesari2/projects/dammsugare/ -d -n dammsugare 'uv run python -m mypy src; uvx ruff check --fix; uv run python -m pytest -s -vv'  &&
+tmux new-window -c ~/caesari2/projects/data-collector/ -d -n data-collector 'uv run python -m mypy src; uvx ruff check --fix; uv run python -m pytest -s -vv'
+tmux new-window -c ~/caesari2/packages/python/caesari_clients/ -d -n caesari_clients 'uv run python -m mypy src; uvx ruff check --fix; uv run python -m pytest -s -vv'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_data/ -d -n caesari_data 'uv run python -m mypy src; uvx ruff check --fix; uv run python -m pytest -s -vv'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_execution/ -d -n caesari_execution 'uv run python -m mypy src; uvx ruff check --fix; uv run python -m pytest -s -vv'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_datasources/ -d -n caesari_datasources 'uv run python -m mypy src; uvx ruff check --fix; uv run python -m pytest -s -vv'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_gateways/ -d -n caesari_gateways 'uv run python -m mypy src; uvx ruff check --fix; uv run python -m pytest -s -vv'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_models/ -d -n caesari_models 'uv run python -m mypy src; uvx ruff check --fix; uv run python -m pytest -s -vv'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_postgres/ -d -n caesari_postgres 'uv run python -m mypy src; uvx ruff check --fix; uv run python -m pytest -s -vv'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_signals/ -d -n caesari_signals 'uv run python -m mypy src; uvx ruff check --fix; uv run python -m pytest -s -vv'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_symbols/ -d -n caesari_symbols 'uv run python -m mypy src; uvx ruff check --fix; uv run python -m pytest -s -vv'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_utils/ -d -n caesari_utils 'uv run python -m mypy src; uvx ruff check --fix; uv run python -m pytest -s -vv'
 """
 
 [[session]]
 name = "format-all"
 path = "~/caesari2/"
 startup_command = """
-tmux new-window -c ~/caesari2/projects/riskbert/ -d -n riskbert 'hatch fmt; fish'  &&
-tmux new-window -c ~/caesari2/projects/hawk/ -d -n hawk 'hatch fmt; fish'  &&
-tmux new-window -c ~/caesari2/projects/moritz/ -d -n moritz 'hatch fmt; fish'  &&
-tmux new-window -c ~/caesari2/projects/dammsugare/ -d -n dammsugare 'hatch fmt; fish'  &&
-tmux new-window -c ~/caesari2/projects/data-collector/ -d -n data-collector 'hatch fmt; fish'
-tmux new-window -c ~/caesari2/packages/python/caesari_clients/ -d -n caesari_clients 'hatch fmt; fish'  &&
-tmux new-window -c ~/caesari2/packages/python/caesari_data/ -d -n caesari_data 'hatch fmt; fish'  &&
-tmux new-window -c ~/caesari2/packages/python/caesari_execution/ -d -n caesari_execution 'hatch fmt; fish'  &&
-tmux new-window -c ~/caesari2/packages/python/caesari_datasources/ -d -n caesari_datasources 'hatch fmt; fish'  &&
-tmux new-window -c ~/caesari2/packages/python/caesari_gateways/ -d -n caesari_gateways 'hatch fmt; fish'  &&
-tmux new-window -c ~/caesari2/packages/python/caesari_models/ -d -n caesari_models 'hatch fmt; fish'  &&
-tmux new-window -c ~/caesari2/packages/python/caesari_postgres/ -d -n caesari_postgres 'hatch fmt; fish'  &&
-tmux new-window -c ~/caesari2/packages/python/caesari_signals/ -d -n caesari_signals 'hatch fmt; fish'  &&
-tmux new-window -c ~/caesari2/packages/python/caesari_symbols/ -d -n caesari_symbols 'hatch fmt; fish'  &&
-tmux new-window -c ~/caesari2/packages/python/caesari_utils/ -d -n caesari_utils 'hatch fmt; fish'
+tmux new-window -c ~/caesari2/projects/riskbert/ -d -n riskbert 'uvx ruff check --fix; fish'  &&
+tmux new-window -c ~/caesari2/projects/hawk/ -d -n hawk 'uvx ruff check --fix; fish'  &&
+tmux new-window -c ~/caesari2/projects/moritz/ -d -n moritz 'uvx ruff check --fix; fish'  &&
+tmux new-window -c ~/caesari2/projects/dammsugare/ -d -n dammsugare 'uvx ruff check --fix; fish'  &&
+tmux new-window -c ~/caesari2/projects/data-collector/ -d -n data-collector 'uvx ruff check --fix; fish'
+tmux new-window -c ~/caesari2/packages/python/caesari_clients/ -d -n caesari_clients 'uvx ruff check --fix; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_data/ -d -n caesari_data 'uvx ruff check --fix; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_execution/ -d -n caesari_execution 'uvx ruff check --fix; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_datasources/ -d -n caesari_datasources 'uvx ruff check --fix; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_gateways/ -d -n caesari_gateways 'uvx ruff check --fix; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_models/ -d -n caesari_models 'uvx ruff check --fix; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_postgres/ -d -n caesari_postgres 'uvx ruff check --fix; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_signals/ -d -n caesari_signals 'uvx ruff check --fix; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_symbols/ -d -n caesari_symbols 'uvx ruff check --fix; fish'  &&
+tmux new-window -c ~/caesari2/packages/python/caesari_utils/ -d -n caesari_utils 'uvx ruff check --fix; fish'
 """
 
 

@@ -7,9 +7,12 @@ local ok_mlsp, mason_lspconfig = pcall(require, "mason-lspconfig")
 local ok_lspc, lspconfig = pcall(require, "lspconfig")
 if not (ok_mlsp and ok_lspc) then return end
 
--- Servers you want
-local servers = { "pyright", "rust_analyzer" }
-mason_lspconfig.setup({ ensure_installed = servers })
+-- Completely disable mason-lspconfig auto-setup
+mason_lspconfig.setup({
+  ensure_installed = { "pyright", "rust_analyzer" },
+  automatic_installation = true,
+  automatic_setup = false
+})
 
 -- Diagnostics config
 vim.diagnostic.config({
@@ -47,22 +50,34 @@ if ok_coq then
   capabilities = coq.lsp_ensure_capabilities(capabilities)
 end
 
--- Setup each server (works on all versions)
-for _, server in ipairs(servers) do
-  local opts = { on_attach = on_attach, capabilities = capabilities }
-  if server == "rust_analyzer" then
-    opts.settings = { 
-      ["rust-analyzer"] = { 
-        cargo = { allFeatures = true }, 
-        check = { command = "clippy" } 
-      } 
-    }
-  elseif server == "pyright" then
-    -- Only setup if not already running to avoid duplicates
-    if not vim.tbl_contains(vim.lsp.get_clients(), function(client) return client.name == "pyright" end) then
-      lspconfig[server].setup(opts)
-    end
-  else
-    lspconfig[server].setup(opts)
-  end
+-- Stop any existing pyright clients first
+for _, client in ipairs(vim.lsp.get_clients({ name = "pyright" })) do
+  client.stop()
 end
+
+-- Setup pyright only (Mason handles the binary)
+mason_lspconfig.pyright.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+  settings = {
+    python = {
+      analysis = {
+        typeCheckingMode = "strict",
+        autoSearchPaths = true,
+        diagnosticMode = "openFilesOnly"
+      }
+    }
+  }
+})
+
+-- Setup rust_analyzer
+mason_lspconfig.rust_analyzer.setup({
+  on_attach = on_attach,
+  capabilities = capabilities,
+  settings = { 
+    ["rust-analyzer"] = { 
+      cargo = { allFeatures = true }, 
+      check = { command = "clippy" } 
+    } 
+  }
+})
