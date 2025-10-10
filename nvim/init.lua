@@ -72,12 +72,7 @@ ensure_dir(vim.opt.directory:get()[1])
 ensure_dir(vim.opt.backupdir:get()[1])
 ensure_dir(vim.opt.undodir:get()[1])
 
--- Theme (only if plugin is loaded)
-vim.defer_fn(function()
-    if pcall(vim.cmd, 'colorscheme catppuccin-mocha') then
-        -- Theme loaded successfully
-    end
-end, 100)
+
 
 
 -- Keymaps
@@ -110,15 +105,15 @@ pcall(require, "lsp")
 
 -- Colorscheme setup
 require("catppuccin").setup({
-  flavour = "macchiato",
-  transparent_background = true,
+  flavour = "frappe",
+  transparent_background = false,
   integrations = {
     treesitter = true,
     native_lsp = { enabled = true },
   },
 })
 
--- vim.cmd.colorscheme("catppuccin-macchiato")
+vim.cmd.colorscheme("catppuccin-frappe")
 
 -- Treesitter setup
 require("nvim-treesitter.configs").setup {
@@ -167,6 +162,10 @@ require('gitsigns').setup {
 
 -- Set git signs colors
 vim.api.nvim_set_hl(0, 'GitSignsChange', { fg = '#7aa2f7' }) -- Blue for changes
+
+-- Make line numbers more readable
+vim.api.nvim_set_hl(0, 'LineNr', { fg = '#cad3f5' }) -- Line numbers - brighter and bold
+vim.api.nvim_set_hl(0, 'CursorLineNr', { fg = '#f4dbd6' }) -- Current line number - even brighter
 
 -- Disable barbar's default keymaps to prevent conflicts
 vim.g.barbar_auto_setup = false
