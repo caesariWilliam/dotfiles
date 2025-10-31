@@ -10,9 +10,16 @@ startup_command = "ls -la"
 
 
 [[session]]
-name = "tbricks"
+name = "tbricks-prd"
+path = "~"
+startup_command = "ssh -t tbricks-prd 'sudo -iu tbricks'"
+
+[[session]]
+name = "tbricks-uat"
 path = "~"
 startup_command = "ssh -t tbricks-uat 'sudo -iu tbricks'"
+
+
 
 
 [[session]]

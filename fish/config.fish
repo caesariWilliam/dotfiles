@@ -25,6 +25,14 @@ function exp
     ssh gordon -t '~/run_exposure_logs.sh'
 end
 
+
+function cam-exp
+    while true
+        curl -s http://192.0.88.8:6969/exposure_table?isec_portfolio=PROD | jq -r '.table'
+        sleep 1
+    end
+end
+
 function chamberprod
     switch (count $argv)
         case 0
@@ -170,3 +178,8 @@ set PATH $PATH /Users/w/Library/Application Support/hatch/pythons/3.12/python/bi
 alias vim='nvim'
 set -Ux EDITOR nvim
 set -Ux VISUAL nvim
+
+
+# bun
+set --export BUN_INSTALL "$HOME/Library/Application Support/reflex/bun"
+set --export PATH $BUN_INSTALL/bin $PATH
