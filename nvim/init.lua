@@ -91,6 +91,8 @@ vim.keymap.set('n', '<leader>wq', ':q<CR>', { noremap = true, silent = true })
 -- LSP keymaps
 vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition, { noremap = true, silent = true })
 vim.keymap.set('n', '<leader>gr', vim.lsp.buf.references, { noremap = true, silent = true })
+vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, { noremap = true, silent = true })
+vim.keymap.set('n', 'K', vim.lsp.buf.hover, { noremap = true, silent = true, desc = 'LSP hover' })
 
 -- Git keymaps
 vim.keymap.set('n', '<leader>gb', ':Git blame --date=relative<CR>', { noremap = true, silent = true })

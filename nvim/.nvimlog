@@ -1,0 +1,2 @@
+WRN 2025-11-24T14:20:18.425 ?.1002     server_start:193: Failed to start server: operation not permitted: /var/folders/b1/gb6rpg5d6md3m2rvjjp237640000gn/T/nvim.w/SBtl4s/nvim.1002.0
+WRN 2025-11-24T14:20:18.451 ?.1002     server_start:193: Failed to start server: operation not permitted: /var/folders/b1/gb6rpg5d6md3m2rvjjp237640000gn/T/nvim.w/SBtl4s/nvim.1002.1

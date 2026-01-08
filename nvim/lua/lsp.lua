@@ -6,11 +6,12 @@ if ok_mason then mason.setup() end
 local ok_mlsp, mason_lspconfig = pcall(require, "mason-lspconfig")
 local ok_lspc, lspconfig = pcall(require, "lspconfig")
 if not (ok_mlsp and ok_lspc) then return end
+local util = lspconfig.util
 
 -- Completely disable mason-lspconfig auto-setup
 mason_lspconfig.setup({
-  ensure_installed = { "pyright", "rust_analyzer" },
-  automatic_installation = true,
+  ensure_installed = { "pyright" },
+  automatic_installation = { exclude = { "rust_analyzer" } },
   automatic_setup = false
 })
 
@@ -36,6 +37,16 @@ local on_attach = function(_, bufnr)
   map("n", "gd", vim.lsp.buf.definition)
   map("n", "gr", vim.lsp.buf.references)
   map("n", "<leader>gd", vim.lsp.buf.definition)
+  map("n", "<leader>cd", function()
+    local lnum = vim.api.nvim_win_get_cursor(0)[1] - 1
+    -- Prefer quickfix actions on the current diagnostic (imports, etc.)
+    vim.lsp.buf.code_action({
+      context = {
+        only = { "quickfix" },
+        diagnostics = vim.diagnostic.get(bufnr, { lnum = lnum }),
+      },
+    })
+  end)
   vim.bo[bufnr].omnifunc = "v:lua.vim.lsp.omnifunc"
   vim.wo.signcolumn = "yes"
 end
@@ -55,8 +66,8 @@ for _, client in ipairs(vim.lsp.get_clients({ name = "pyright" })) do
   client.stop()
 end
 
--- Setup pyright only (Mason handles the binary)
-mason_lspconfig.pyright.setup({
+-- Setup pyright using lspconfig
+lspconfig.pyright.setup({
   on_attach = on_attach,
   capabilities = capabilities,
   settings = {
@@ -70,15 +81,21 @@ mason_lspconfig.pyright.setup({
   }
 })
 
--- Setup rust_analyzer
-mason_lspconfig.rust_analyzer.setup({
+-- Setup rust_analyzer (use system binary from ~/.cargo/bin)
+lspconfig.rust_analyzer.setup({
+  cmd = { "/opt/homebrew/bin/rust-analyzer" },
+  root_dir = function(fname)
+    return util.root_pattern("Cargo.toml", "rust-project.json")(fname)
+      or util.path.dirname(fname)
+  end,
+  single_file_support = true,
   on_attach = on_attach,
   capabilities = capabilities,
-  settings = { 
-    ["rust-analyzer"] = { 
-      cargo = { allFeatures = true }, 
-      check = { command = "clippy" } 
-      -- diagnostics = { disabled = "unlinked-file" }
-    } 
-  }
+  settings = {
+    ["rust-analyzer"] = {
+      cargo = { allFeatures = true },
+      check = { command = "clippy" },
+      -- diagnostics = { disabled = "unlinked-file" },
+    },
+  },
 })
