@@ -20,8 +20,6 @@ path = "~"
 startup_command = "ssh -t tbricks-uat 'sudo -iu tbricks'"
 
 
-
-
 [[session]]
 name = "sesh"
 path = "~/.config/sesh/"
@@ -53,6 +51,15 @@ name = "indicator-worker"
 path = "~/caesari2/projects/indicator-worker/"
 startup_command = """
 tmux new-window -d -c 'main' &&
+nvim -c 'Files'
+"""
+
+[[session]]
+name = "instrument-service"
+path = "~/caesari-asset-management/projects/instrument-service/"
+startup_command = """
+tmux new-window -d &&
+tmux new-window -d 'claude' &&
 nvim -c 'Files'
 """
 
@@ -180,4 +187,8 @@ startup_command = "iw run"
 
 [default_session]
 path = "~/caesari2/"
-startup_command = "tmux new-window -d && nvim -c 'Files'"
+startup_command = """
+tmux new-window -d &&
+tmux new-window -d 'claude' &&
+nvim -c 'Files'
+"""

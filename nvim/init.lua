@@ -24,6 +24,8 @@ Plug('ms-jpq/coq.artifacts', {branch = 'artifacts'})
 Plug('lewis6991/gitsigns.nvim')
 Plug('romgrk/barbar.nvim')
 Plug('folke/which-key.nvim')
+Plug('nvim-lua/plenary.nvim')
+Plug('nvim-telescope/telescope.nvim')
 
 vim.call('plug#end')
 
@@ -79,8 +81,9 @@ ensure_dir(vim.opt.undodir:get()[1])
 vim.keymap.set('n', '<leader>f', ':Files<CR>')
 vim.keymap.set('n', '<C-S-f>', ':Rg<CR>')
 vim.keymap.set('n', '<leader>bd', ':confirm bdelete<CR>')
-vim.keymap.set('n', '<S-h>', ':bprev<CR>')
-vim.keymap.set('n', '<S-l>', ':bnext<CR>')
+vim.keymap.set('n', '<S-h>', ':BufferPrevious<CR>')
+vim.keymap.set('n', '<S-l>', ':BufferNext<CR>')
+vim.keymap.set('n', '<leader>bo', ':BufferCloseAllButCurrent<CR>', { desc = 'Close all buffers except current' })
 
 vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>')
 
@@ -88,10 +91,11 @@ vim.keymap.set('n', '<leader>e', ':NvimTreeToggle<CR>')
 -- Close window with leader wq
 vim.keymap.set('n', '<leader>wq', ':q<CR>', { noremap = true, silent = true })
 
--- LSP keymaps
-vim.keymap.set('n', '<leader>gd', vim.lsp.buf.definition, { noremap = true, silent = true })
-vim.keymap.set('n', '<leader>gr', vim.lsp.buf.references, { noremap = true, silent = true })
+-- LSP keymaps (using Telescope for references/definitions)
+vim.keymap.set('n', '<leader>gd', function() require('telescope.builtin').lsp_definitions() end, { noremap = true, silent = true })
+vim.keymap.set('n', '<leader>gr', function() require('telescope.builtin').lsp_references() end, { noremap = true, silent = true })
 vim.keymap.set({ 'n', 'v' }, '<leader>ca', vim.lsp.buf.code_action, { noremap = true, silent = true })
+vim.keymap.set({ "n", "v" }, "<leader>cr", vim.lsp.buf.rename, { desc = "Rename symbol" })
 vim.keymap.set('n', 'K', vim.lsp.buf.hover, { noremap = true, silent = true, desc = 'LSP hover' })
 
 -- Git keymaps
@@ -118,10 +122,31 @@ require("catppuccin").setup({
 vim.cmd.colorscheme("catppuccin-frappe")
 
 -- Treesitter setup
-require("nvim-treesitter.configs").setup {
-  ensure_installed = { "lua", "python", "json", "bash", "yaml" },
-  highlight = { enable = true },
-}
+local ok_ts, ts_configs = pcall(require, "nvim-treesitter.configs")
+if ok_ts then
+  ts_configs.setup {
+    ensure_installed = { "lua", "python", "json", "bash", "yaml" },
+    highlight = { enable = true },
+  }
+end
+
+-- Telescope setup
+require('telescope').setup({
+  defaults = {
+    layout_strategy = 'horizontal',
+    layout_config = {
+      horizontal = {
+        preview_width = 0.6,
+        results_width = 0.4,
+      },
+      width = 0.9,
+      height = 0.8,
+    },
+    preview = {
+      treesitter = true,
+    },
+  },
+})
 
 -- Gitsigns setup
 require('gitsigns').setup {

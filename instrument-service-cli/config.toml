@@ -1,0 +1,18 @@
+default_connection = "instrument-service-1-gcp"
+
+[connections."instrument-service-1-gcp"]
+host = "192.0.100.11"
+port = 6379
+db = 0
+username = "reader"
+
+[connections."instrument-service-gcp-writer"]
+host = "192.0.100.11"
+port = 6379
+db = 0
+username = "instrument-service"
+
+[connections."local"]
+host = "localhost"
+port = 6379
+db = 0
